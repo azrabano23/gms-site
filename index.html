@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grey Matter Society — Spring 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:          #070c18;
+      --card:        #0c1525;
+      --elevated:    #111e33;
+      --border:      rgba(255,255,255,0.07);
+      --border-hi:   rgba(255,255,255,0.13);
+      --blue:        #4f8ef7;
+      --blue-dim:    rgba(79,142,247,0.12);
+      --gold:        #f0b429;
+      --gold-dim:    rgba(240,180,41,0.1);
+      --teal:        #0dd3b2;
+      --teal-dim:    rgba(13,211,178,0.1);
+      --orange:      #f97316;
+      --orange-dim:  rgba(249,115,22,0.1);
+      --red:         #ef4444;
+      --red-dim:     rgba(239,68,68,0.1);
+      --purple:      #a78bfa;
+      --purple-dim:  rgba(167,139,250,0.1);
+      --pink:        #f472b6;
+      --pink-dim:    rgba(244,114,182,0.1);
+      --text:        #eef2ff;
+      --text-2:      #8ba3c7;
+      --text-3:      #3d5270;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+    a{color:var(--blue);text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    /* Neural BG */
+    .neural-bg{position:fixed;inset:0;z-index:0;opacity:.035;pointer-events:none}
+
+    .page{position:relative;z-index:1}
+    .container{max-width:700px;margin:0 auto;padding:0 24px}
+
+    /* ── Topbar ── */
+    .topbar{background:rgba(7,12,24,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:10px 0;position:sticky;top:0;z-index:100}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;max-width:700px;margin:0 auto;padding:0 24px;gap:16px}
+    .topbar-brand{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text);white-space:nowrap}
+    .topbar-brand span{color:var(--gold)}
+    .topbar-nav{display:flex;gap:16px;overflow-x:auto;scrollbar-width:none}
+    .topbar-nav::-webkit-scrollbar{display:none}
+    .topbar-nav a{font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:.03em;text-decoration:none;white-space:nowrap;transition:color .15s}
+    .topbar-nav a:hover{color:var(--text-2)}
+    .portal-btn{background:var(--gold-dim);border:1px solid rgba(240,180,41,.3);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:5px;white-space:nowrap;cursor:pointer;text-decoration:none;flex-shrink:0}
+    .portal-btn:hover{text-decoration:none;background:rgba(240,180,41,.18)}
+
+    /* ── Hero ── */
+    .hero{padding:52px 0 40px;text-align:center}
+    .yale-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,53,148,0.25);border:1px solid rgba(100,149,237,.35);border-radius:6px;padding:6px 14px;font-size:11px;font-weight:600;color:#88b4f5;letter-spacing:.04em;margin-bottom:10px;text-decoration:none}
+    .yale-badge:hover{text-decoration:none;background:rgba(0,53,148,.35);color:#aacaff}
+    .yale-badge-icon{font-size:13px}
+    .flagship-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:22px}
+    .flagship-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    .flagship-label{font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.12em;text-transform:uppercase}
+    .flagship-divider{width:1px;height:12px;background:var(--text-3)}
+    .flagship-sub{font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:.06em;text-transform:uppercase}
+    .hero-title{font-family:'Playfair Display',serif;font-size:46px;font-weight:700;line-height:1.06;letter-spacing:-.03em;color:var(--text);margin-bottom:12px}
+    .hero-title em{font-style:normal;background:linear-gradient(135deg,var(--gold) 0%,#7eb8ff 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--text-3);max-width:400px;margin:0 auto 28px;line-height:1.6}
+    .hero-quote::before{content:'"'} .hero-quote::after{content:'"'}
+    .stat-bar{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border-hi);border-radius:10px;overflow:hidden;max-width:540px;margin:0 auto}
+    .stat-item{padding:14px 10px;text-align:center;background:var(--card);border-right:1px solid var(--border)}
+    .stat-item:last-child{border-right:none}
+    .stat-num{font-size:20px;font-weight:800;color:var(--text);letter-spacing:-.04em;line-height:1;margin-bottom:3px}
+    .stat-label{font-size:9px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.09em}
+
+    /* ── Generic Section ── */
+    .section{padding:38px 0;border-top:1px solid var(--border)}
+    .section-label{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+    .tag{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:3px 9px;border-radius:4px}
+    .tag-blue  {background:var(--blue-dim);color:var(--blue);border:1px solid rgba(79,142,247,.2)}
+    .tag-gold  {background:var(--gold-dim);color:var(--gold);border:1px solid rgba(240,180,41,.2)}
+    .tag-red   {background:var(--red-dim);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+    .tag-orange{background:var(--orange-dim);color:var(--orange);border:1px solid rgba(249,115,22,.2)}
+    .tag-teal  {background:var(--teal-dim);color:var(--teal);border:1px solid rgba(13,211,178,.2)}
+    .tag-purple{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,.2)}
+    .tag-pink  {background:var(--pink-dim);color:var(--pink);border:1px solid rgba(244,114,182,.2)}
+    .section-title{font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+
+    /* ── Alert (Board Photos) ── */
+    .alert{background:linear-gradient(135deg,rgba(239,68,68,.07),rgba(12,21,37,.96));border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:22px 26px;position:relative;overflow:hidden}
+    .alert::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),rgba(239,68,68,.15))}
+    .alert-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .alert-title{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.02em;line-height:1.3}
+    .alert-title small{display:block;font-size:12px;font-weight:400;color:var(--text-2);margin-top:3px}
+    .alert-badge{background:var(--red);color:#fff;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:4px 10px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+    .dl-grid{display:grid;grid-template-columns:110px 1fr;gap:9px 12px}
+    .dl{font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;padding-top:1px}
+    .dd{font-size:13px;color:var(--text-2);line-height:1.55}
+    .dd strong{color:var(--text)}
+    .pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+    .pill{font-size:11px;font-weight:500;padding:3px 10px;border-radius:100px;border:1px solid var(--border-hi);color:var(--text-2)}
+    .pill-gold{border-color:rgba(240,180,41,.3);color:var(--gold);background:var(--gold-dim)}
+    .pill-red{border-color:rgba(239,68,68,.3);color:var(--red);background:var(--red-dim)}
+    .info-note{background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.14);border-radius:7px;padding:11px 15px;margin-top:13px;font-size:12px;color:var(--text-2);line-height:1.6}
+    .info-note strong{color:var(--text)}
+
+    /* ── Responsibilities ── */
+    .resp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .resp-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 18px}
+    .resp-icon{font-size:18px;margin-bottom:8px}
+    .resp-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.01em}
+    .resp-body{font-size:12px;color:var(--text-2);line-height:1.6}
+    .resp-body ul{list-style:none;padding:0}
+    .resp-body ul li{padding:2px 0 2px 12px;position:relative}
+    .resp-body ul li::before{content:'·';position:absolute;left:2px;color:var(--text-3)}
+    .resp-body strong{color:var(--text)}
+    .mandatory-alert{background:linear-gradient(135deg,rgba(239,68,68,.08),rgba(12,21,37,.95));border:1px solid rgba(239,68,68,.22);border-radius:8px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px}
+    .mandatory-alert .icon{font-size:18px;flex-shrink:0;margin-top:1px}
+    .mandatory-alert .body{font-size:13px;color:var(--text-2);line-height:1.6}
+    .mandatory-alert strong{color:var(--text)}
+
+    /* ── Meetings / Events timeline ── */
+    .timeline{display:flex;flex-direction:column}
+    .t-item{display:grid;grid-template-columns:56px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+    .t-item:last-child{border-bottom:none}
+    .t-date{text-align:right;padding-top:1px}
+    .t-num{font-size:24px;font-weight:800;line-height:1;letter-spacing:-.04em;color:var(--text-3)}
+    .t-mon{font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.07em;margin-top:1px}
+    .t-body{position:relative;padding-left:17px}
+    .t-body::before{content:'';position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%}
+    .dc-red::before   {background:var(--red)}
+    .dc-gold::before  {background:var(--gold)}
+    .dc-blue::before  {background:var(--blue)}
+    .dc-teal::before  {background:var(--teal)}
+    .dc-orange::before{background:var(--orange)}
+    .dc-purple::before{background:var(--purple)}
+    .dc-pink::before  {background:var(--pink)}
+    .t-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:2px}
+    .t-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.01em}
+    .t-time{font-size:11px;color:var(--text-3)}
+    .t-details{font-size:12px;color:var(--text-2);line-height:1.6;margin-top:3px}
+    .t-details ul{list-style:none;margin-top:4px}
+    .t-details ul li{padding:1px 0 1px 12px;position:relative}
+    .t-details ul li::before{content:'·';position:absolute;left:2px;color:var(--text-3)}
+    .t-details strong{color:var(--text)}
+    .t-details a{color:var(--blue)}
+    .format-badge{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;border:1px solid var(--border-hi);color:var(--text-3);background:var(--elevated)}
+    .format-irl{border-color:rgba(13,211,178,.2);color:var(--teal);background:var(--teal-dim)}
+    .format-virtual{border-color:rgba(79,142,247,.2);color:var(--blue);background:var(--blue-dim)}
+    .mandatory-badge{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;background:var(--red);color:#fff}
+    .optional-badge{font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:3px;border:1px solid var(--border-hi);color:var(--text-3)}
+    .break-banner{background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:13px 18px;display:flex;align-items:center;justify-content:space-between;margin:8px 0}
+    .break-label{font-size:13px;font-weight:700;color:var(--text)}
+    .break-sub{font-size:11px;color:var(--text-3);margin-top:1px}
+    .break-tag{font-size:9px;font-weight:700;color:var(--text-3);border:1px solid var(--border);padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.08em}
+    .std-card{background:linear-gradient(135deg,rgba(240,180,41,.09),rgba(79,142,247,.07));border:1px solid rgba(240,180,41,.28);border-radius:10px;padding:22px;text-align:center;margin-top:6px}
+    .std-eyebrow{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .std-title{font-family:'Playfair Display',serif;font-size:26px;font-weight:700;letter-spacing:-.03em;margin-bottom:5px}
+    .std-sub{font-size:13px;color:var(--text-2)}
+
+    /* ── Calendar ── */
+    .cal-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+    .cal-month{background:var(--card);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+    .cal-head{background:var(--elevated);padding:9px 12px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);text-align:center;border-bottom:1px solid var(--border)}
+    .cal-dow{display:grid;grid-template-columns:repeat(7,1fr);padding:6px 7px 2px;gap:1px}
+    .cal-dn{text-align:center;font-size:8px;font-weight:700;color:var(--text-3);letter-spacing:.04em;text-transform:uppercase}
+    .cal-days{display:grid;grid-template-columns:repeat(7,1fr);padding:3px 7px 8px;gap:2px}
+    .cd{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--text-3);border-radius:4px}
+    .cd.empty{opacity:0;pointer-events:none}
+    .e-red   {background:rgba(239,68,68,.22);color:#fca5a5;font-weight:800}
+    .e-gold  {background:rgba(240,180,41,.2);color:#fde68a;font-weight:800}
+    .e-blue  {background:rgba(79,142,247,.18);color:#93c5fd;font-weight:800}
+    .e-teal  {background:rgba(13,211,178,.18);color:#6ee7b7;font-weight:800}
+    .e-orange{background:rgba(249,115,22,.18);color:#fdba74;font-weight:800}
+    .e-purple{background:rgba(167,139,250,.18);color:#c4b5fd;font-weight:800}
+    .e-pink  {background:rgba(244,114,182,.18);color:#f9a8d4;font-weight:800}
+    .e-multi {background:linear-gradient(135deg,rgba(240,180,41,.22),rgba(239,68,68,.22));color:#fde68a;font-weight:800}
+    .cal-legend{display:flex;flex-wrap:wrap;gap:10px 16px}
+    .leg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text-2)}
+    .leg-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+
+    /* ── Venture Lab ── */
+    .venture-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:24px 26px;margin-bottom:14px;position:relative;overflow:hidden}
+    .venture-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--teal),var(--purple))}
+    .venture-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:7px}
+    .venture-title span{color:var(--teal)}
+    .venture-desc{font-size:13px;color:var(--text-2);line-height:1.7;margin-bottom:16px}
+    .disc-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px}
+    .disc{font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;border:1px solid var(--border-hi);color:var(--text-2);background:var(--elevated)}
+    .pipeline{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:6px}
+    .p-step{flex:1;padding:10px 6px;text-align:center;background:var(--elevated);border-right:1px solid var(--border)}
+    .p-step:last-child{border-right:none}
+    .p-icon{font-size:13px;margin-bottom:2px}
+    .p-label{font-size:9px;font-weight:600;color:var(--text-2);line-height:1.3}
+    .tracks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .track{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px 14px;position:relative;overflow:hidden}
+    .track::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+    .t-blue::before {background:var(--blue)}
+    .t-teal::before {background:var(--teal)}
+    .t-purple::before{background:var(--purple)}
+    .track-n{font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+    .track-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;letter-spacing:-.01em}
+    .track-tag{font-size:11px;color:var(--text-2);margin-bottom:10px;line-height:1.4}
+    .track-dl-label{font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px}
+    .track-list{list-style:none}
+    .track-list li{font-size:11px;color:var(--text-2);padding:2px 0 2px 11px;position:relative;line-height:1.4}
+    .track-list li::before{content:'→';position:absolute;left:0;font-size:9px;color:var(--text-3)}
+    .track-vibe{margin-top:9px;padding-top:9px;border-top:1px solid var(--border);font-size:11px;font-weight:600;font-style:italic}
+    .t-blue  .track-vibe{color:var(--blue)}
+    .t-teal  .track-vibe{color:var(--teal)}
+    .t-purple .track-vibe{color:var(--purple)}
+    .venture-diff{background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .diff-header{font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:7px}
+    .diff-list{list-style:none}
+    .diff-list li{font-size:12px;color:var(--text-2);padding:3px 0 3px 14px;position:relative;line-height:1.5}
+    .diff-list.is li::before{content:'✓';position:absolute;left:0;color:var(--teal);font-size:10px}
+    .diff-list.not li{color:var(--text-3)}
+    .diff-list.not li::before{content:'✕';position:absolute;left:0;font-size:9px;color:rgba(239,68,68,.45)}
+
+    /* ── Get Involved ── */
+    .involve-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:10px;position:relative;overflow:hidden}
+    .involve-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+    .ic-pink::before  {background:linear-gradient(90deg,var(--pink),rgba(244,114,182,.1))}
+    .ic-purple::before{background:linear-gradient(90deg,var(--purple),rgba(167,139,250,.1))}
+    .ic-teal::before  {background:linear-gradient(90deg,var(--teal),rgba(13,211,178,.1))}
+    .ic-blue::before  {background:linear-gradient(90deg,var(--blue),rgba(79,142,247,.1))}
+    .inv-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .inv-eyebrow{font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+    .inv-title{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+    .inv-sub{font-size:12px;color:var(--text-2);line-height:1.6;margin-bottom:12px}
+    .status-full{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:var(--red);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+    .status-open{background:rgba(13,211,178,.1);border:1px solid rgba(13,211,178,.25);color:var(--teal);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+    .rsvp-deadline{background:var(--orange-dim);border:1px solid rgba(249,115,22,.25);color:var(--orange);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:4px;white-space:nowrap;flex-shrink:0}
+    .dare-examples{background:var(--elevated);border:1px solid var(--border);border-radius:7px;padding:12px 16px;margin:10px 0;display:flex;flex-wrap:wrap;gap:6px}
+    .dare-chip{font-size:11px;font-weight:500;padding:3px 10px;border-radius:100px;border:1px solid var(--border-hi);color:var(--text-2);background:rgba(244,114,182,.05);border-color:rgba(244,114,182,.15)}
+    .dare-rule{font-size:11px;color:var(--text-3);margin-top:8px;font-style:italic}
+    .dare-rule span{color:var(--red)}
+
+    /* ── Opportunities ── */
+    .opp{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:10px;position:relative;overflow:hidden}
+    .opp::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+    .o-gold::before  {background:linear-gradient(90deg,var(--gold),rgba(240,180,41,.1))}
+    .o-orange::before{background:linear-gradient(90deg,var(--orange),rgba(249,115,22,.1))}
+    .o-teal::before  {background:linear-gradient(90deg,var(--teal),rgba(13,211,178,.1))}
+    .opp-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+    .opp-n{font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+    .opp-title{font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+    .deadline{background:var(--orange-dim);border:1px solid rgba(249,115,22,.25);color:var(--orange);font-size:9px;font-weight:700;padding:4px 9px;border-radius:4px;white-space:nowrap;flex-shrink:0;letter-spacing:.06em;text-transform:uppercase}
+    .opp-desc{font-size:12px;color:var(--text-2);line-height:1.6;margin-bottom:11px}
+    .opp-chips{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
+    .chip{font-size:10px;font-weight:600;padding:3px 9px;border-radius:5px;border:1px solid var(--border-hi);color:var(--text-2);background:var(--elevated)}
+    .chip-gold{border-color:rgba(240,180,41,.3);color:var(--gold);background:var(--gold-dim)}
+    .chip-green{border-color:rgba(52,211,153,.3);color:#34d399;background:rgba(52,211,153,.08)}
+    .cta{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--blue);border:1px solid rgba(79,142,247,.22);background:var(--blue-dim);padding:6px 12px;border-radius:6px}
+    .cta:hover{text-decoration:none;background:rgba(79,142,247,.2)}
+    .cta::after{content:'→'}
+
+    /* ── Resources ── */
+    .res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    .res{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px;text-decoration:none;display:block;transition:border-color .15s,background .15s}
+    .res:hover{border-color:var(--border-hi);background:var(--elevated);text-decoration:none}
+    .res-icon{font-size:16px;margin-bottom:6px}
+    .res-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+    .res-desc{font-size:10px;color:var(--text-3);line-height:1.4}
+    .portal-card{background:linear-gradient(135deg,rgba(240,180,41,.09),rgba(12,21,37,.97));border:1px solid rgba(240,180,41,.3);border-radius:10px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px}
+    .portal-left .portal-eyebrow{font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+    .portal-left .portal-title{font-size:15px;font-weight:700;color:var(--text)}
+    .portal-left .portal-sub{font-size:12px;color:var(--text-2);margin-top:2px}
+    .portal-cta{background:var(--gold);color:#ffffff;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:8px 16px;border-radius:6px;white-space:nowrap;text-decoration:none}
+    .portal-cta:hover{text-decoration:none;background:var(--gold-light,#f0c040)}
+
+    /* ── Announcements ── */
+    .ann-list{list-style:none}
+    .ann-list li{display:flex;gap:10px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-2);line-height:1.6}
+    .ann-list li:last-child{border-bottom:none}
+    .ann-icon{flex-shrink:0;font-size:14px;margin-top:1px}
+    .ann-list strong{color:var(--text)}
+
+    /* ── Footer ── */
+    .footer{border-top:1px solid var(--border);padding:30px 0 50px;text-align:center}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+    .footer-logo span{color:var(--gold)}
+    .footer-yale{font-size:11px;color:var(--text-3);margin-bottom:12px}
+    .footer-yale a{color:rgba(100,149,237,.7)}
+    .footer-row{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;margin-bottom:10px}
+    .footer-row a{font-size:11px;font-weight:500;color:var(--text-3);text-decoration:none}
+    .footer-row a:hover{color:var(--text-2)}
+  </style>
+</head>
+<body>
+
+<!-- Neural Background -->
+<svg class="neural-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice">
+  <circle cx="80" cy="60" r="5" fill="#c9a84c"/><circle cx="280" cy="160" r="3" fill="#c9a84c"/>
+  <circle cx="520" cy="40" r="6" fill="#c9a84c"/><circle cx="760" cy="120" r="3" fill="#c9a84c"/>
+  <circle cx="1000" cy="70" r="5" fill="#c9a84c"/><circle cx="1240" cy="150" r="3" fill="#4f8ef7"/>
+  <circle cx="160" cy="260" r="3" fill="#c9a84c"/><circle cx="400" cy="220" r="6" fill="#4f8ef7"/>
+  <circle cx="640" cy="280" r="3" fill="#c9a84c"/><circle cx="880" cy="240" r="5" fill="#c9a84c"/>
+  <circle cx="1120" cy="260" r="3" fill="#4f8ef7"/><circle cx="60" cy="440" r="3" fill="#c9a84c"/>
+  <circle cx="320" cy="400" r="5" fill="#c9a84c"/><circle cx="560" cy="460" r="3" fill="#4f8ef7"/>
+  <circle cx="800" cy="420" r="6" fill="#c9a84c"/><circle cx="1040" cy="460" r="3" fill="#c9a84c"/>
+  <circle cx="1280" cy="380" r="5" fill="#4f8ef7"/><circle cx="140" cy="620" r="4" fill="#c9a84c"/>
+  <circle cx="420" cy="580" r="3" fill="#c9a84c"/><circle cx="700" cy="640" r="5" fill="#4f8ef7"/>
+  <circle cx="960" cy="600" r="3" fill="#c9a84c"/><circle cx="1200" cy="660" r="4" fill="#c9a84c"/>
+  <line x1="80" y1="60" x2="280" y2="160" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="280" y1="160" x2="520" y2="40" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="520" y1="40" x2="760" y2="120" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="760" y1="120" x2="1000" y2="70" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="1000" y1="70" x2="1240" y2="150" stroke="#4f8ef7" stroke-width=".7" opacity=".7"/>
+  <line x1="80" y1="60" x2="160" y2="260" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="280" y1="160" x2="400" y2="220" stroke="#4f8ef7" stroke-width=".7" opacity=".7"/>
+  <line x1="520" y1="40" x2="400" y2="220" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="760" y1="120" x2="640" y2="280" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="1000" y1="70" x2="880" y2="240" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="1240" y1="150" x2="1120" y2="260" stroke="#4f8ef7" stroke-width=".7" opacity=".7"/>
+  <line x1="160" y1="260" x2="400" y2="220" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="400" y1="220" x2="640" y2="280" stroke="#4f8ef7" stroke-width=".7" opacity=".7"/>
+  <line x1="640" y1="280" x2="880" y2="240" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="880" y1="240" x2="1120" y2="260" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="160" y1="260" x2="60" y2="440" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="400" y1="220" x2="320" y2="400" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="640" y1="280" x2="560" y2="460" stroke="#4f8ef7" stroke-width=".5" opacity=".5"/>
+  <line x1="880" y1="240" x2="800" y2="420" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="1120" y1="260" x2="1040" y2="460" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="60" y1="440" x2="320" y2="400" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="320" y1="400" x2="560" y2="460" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="560" y1="460" x2="800" y2="420" stroke="#4f8ef7" stroke-width=".7" opacity=".7"/>
+  <line x1="800" y1="420" x2="1040" y2="460" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="1040" y1="460" x2="1280" y2="380" stroke="#4f8ef7" stroke-width=".7" opacity=".7"/>
+  <line x1="60" y1="440" x2="140" y2="620" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="320" y1="400" x2="420" y2="580" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="560" y1="460" x2="700" y2="640" stroke="#4f8ef7" stroke-width=".5" opacity=".5"/>
+  <line x1="800" y1="420" x2="960" y2="600" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="1040" y1="460" x2="1200" y2="660" stroke="#c9a84c" stroke-width=".5" opacity=".5"/>
+  <line x1="140" y1="620" x2="420" y2="580" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="420" y1="580" x2="700" y2="640" stroke="#4f8ef7" stroke-width=".7" opacity=".7"/>
+  <line x1="700" y1="640" x2="960" y2="600" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+  <line x1="960" y1="600" x2="1200" y2="660" stroke="#c9a84c" stroke-width=".7" opacity=".7"/>
+</svg>
+
+<div class="page">
+
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-brand">Grey Matter <span>Society</span></div>
+      <div class="topbar-nav">
+        <a href="#membership">Membership</a>
+        <a href="#photos">Board Photos</a>
+        <a href="#mandatory">Mandatory</a>
+        <a href="#meetings">Meetings</a>
+        <a href="#events">Events</a>
+        <a href="#involve">Get Involved</a>
+        <a href="#opps">Opportunities</a>
+        <a href="#venture">Venture Lab</a>
+      </div>
+      <a href="#portal" class="portal-btn">🔒 Members Only</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="container">
+      <a class="yale-badge" href="https://medicine.yale.edu/neurology/education/grey-matter-project/" target="_blank">
+        <span class="yale-badge-icon">🎓</span>
+        Part of the Yale Grey Matter Project &nbsp;·&nbsp; Global Network
+      </a>
+      <div class="flagship-row">
+        <span class="flagship-dot"></span>
+        <span class="flagship-label">Rutgers — Founding Flagship Chapter</span>
+        <span class="flagship-divider"></span>
+        <span class="flagship-sub">150+ International Chapters</span>
+      </div>
+      <h1 class="hero-title">Grey Matter<br/><em>Society</em></h1>
+      <p class="hero-quote">We don't just study medicine. We build the future of it.</p>
+      <div class="stat-bar" style="grid-template-columns:repeat(2,1fr);max-width:300px">
+        <div class="stat-item">
+          <div class="stat-num">150+</div>
+          <div class="stat-label">Intl Chapters</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">Spr '26</div>
+          <div class="stat-label">Season</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEMBERSHIP STRUCTURE -->
+  <div class="section" id="membership">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-blue">Who We Are</span>
+        <span class="section-title">Membership Structure</span>
+      </div>
+
+      <div class="portal-card" style="margin-bottom:16px">
+        <div class="portal-left">
+          <div class="portal-eyebrow">Official · Spring 2026</div>
+          <div class="portal-title">GMS Member Roster</div>
+          <div class="portal-sub">View all active members, committees, leads, and directors</div>
+        </div>
+        <a href="#" class="portal-cta" target="_blank">View Roster</a>
+      </div>
+
+      <div class="resp-grid">
+        <div class="resp-card">
+          <div class="resp-icon">👥</div>
+          <div class="resp-title">Committee Members — General Board</div>
+          <div class="resp-body">Every GMS member belongs to a committee — <strong>this is what it means to be on the general board</strong>. Your primary responsibility is to your own committee's work and goals. Beyond that, you're welcome to enjoy events put on by other committees, attend as a member, and engage with everything GMS has to offer. This organization is what you make of it — the more you put in, the more you take away.</div>
+        </div>
+        <div class="resp-card">
+          <div class="resp-icon">⭐</div>
+          <div class="resp-title">Executive Board — Leads &amp; Directors</div>
+          <div class="resp-body">The executive board consists exclusively of <strong>Directors and Leads</strong>, as defined on the roster. If your name has an <strong style="color:var(--gold)">asterisk (*)</strong> next to it on the roster, you are a <strong>Lead</strong> — you are on the executive board, not the general board. Leads and Directors carry broader organizational responsibilities across GMS.</div>
+        </div>
+      </div>
+
+      <div class="info-note" style="margin-top:12px">
+        <strong>Not sure where you fall?</strong> Check the official roster above. No asterisk = committee member on the general board. Asterisk (*) next to your name = Lead, executive board.
+      </div>
+    </div>
+  </div>
+
+  <!-- BOARD PHOTOS -->
+  <div class="section" id="photos">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-teal">Princeton Shoot · Complete</span>
+        <span class="section-title">Board Photos</span>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(13,211,178,.07),rgba(12,21,37,.96));border:1px solid rgba(13,211,178,.3);border-radius:10px;padding:22px 26px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal),rgba(13,211,178,.15))"></div>
+        <div class="alert-header">
+          <div>
+            <div class="alert-title">
+              Princeton Shoot — It's a Wrap!
+              <small>Thank you to everyone who came out. Your photos are on their way.</small>
+            </div>
+          </div>
+          <div class="alert-badge" style="background:var(--teal)">Complete ✓</div>
+        </div>
+        <div class="dl-grid">
+          <div class="dl">Your Photos</div>
+          <div class="dd"><strong>Coming Soon</strong> — We will be sending out a Google Drive link with everyone's individual photos shortly. Keep an eye on the WhatsApp group and your email.</div>
+          <div class="dl">Missed It?</div>
+          <div class="dd">
+            <div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:7px;padding:12px 14px;margin-bottom:10px">
+              <div style="font-size:12px;font-weight:700;color:var(--text);margin-bottom:5px">Makeup is Required — Not Optional</div>
+              <div style="font-size:12px;color:var(--text-2);line-height:1.6">If you did not attend the Princeton shoot, you <strong style="color:var(--text)">must</strong> complete a makeup option. Missing both the shoot and a makeup will affect your standing as an active member.</div>
+            </div>
+            <div style="font-size:12px;color:var(--text-2);line-height:1.7;margin-bottom:8px">
+              <strong style="color:var(--text);display:block;margin-bottom:4px">How it works:</strong>
+              <ul style="list-style:none;padding:0">
+                <li style="padding:2px 0 2px 14px;position:relative">· Take your own photos in the required outfit &amp; dress code</li>
+                <li style="padding:2px 0 2px 14px;position:relative">· Submit via the instructions in the document below</li>
+                <li style="padding:2px 0 2px 14px;position:relative">· Same classy formal, navy blue dress code applies</li>
+                <li style="padding:2px 0 2px 14px;position:relative">· Complete ASAP — do not wait</li>
+              </ul>
+            </div>
+            <a href="https://docs.google.com/document/d/159zImlgN-8nbZ8cbxAXzcAkIkO9I9YP4NgfskxHTzMc/edit?usp=sharing" target="_blank" style="display:inline-flex;align-items:center;gap:5px;color:var(--teal);font-size:12px;font-weight:600;background:var(--teal-dim);border:1px solid rgba(13,211,178,.2);padding:6px 12px;border-radius:6px">View Full Makeup Options &amp; Instructions →</a>
+          </div>
+          <div class="dl">Dress Code</div>
+          <div class="dd">
+            <strong>Classy Formal · Navy Blue</strong>
+            <div class="pills" style="margin-top:7px">
+              <span class="pill pill-gold">Dresses / Suits (no tie)</span>
+              <span class="pill pill-gold">Jewelry welcome</span>
+              <span class="pill pill-gold">Religious coverings welcome</span>
+              <span class="pill pill-red">No sneakers</span>
+              <span class="pill pill-red">No discriminatory clothing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEMBER RESPONSIBILITIES -->
+  <div class="section" id="responsibilities">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-gold">Your Role</span>
+        <span class="section-title">Member Responsibilities</span>
+      </div>
+      <div class="mandatory-alert">
+        <span class="icon">⚠️</span>
+        <div class="body">
+          <strong>Mandatory dates this semester:</strong> The Grey Conference (Mar 7), Mandatory Virtual Meeting (Mar 9), Mandatory In-Person Meeting (Mar 23), and GMS Charity Pageant (Apr 1–2). No exceptions unless pre-approved by your committee lead.
+        </div>
+      </div>
+      <div class="resp-grid">
+        <div class="resp-card">
+          <div class="resp-icon">📅</div>
+          <div class="resp-title">Attend Committee Meetings Weekly</div>
+          <div class="resp-body">Your committee meets every week — IRL or virtual depending on your team. Check with your committee lead for your schedule. Consistent attendance is required.</div>
+        </div>
+        <div class="resp-card">
+          <div class="resp-icon">🎯</div>
+          <div class="resp-title">Show Up to Mandatory Events</div>
+          <div class="resp-body">
+            <ul>
+              <li><strong>The Grey Conference</strong> — Mar 7 (All Members)</li>
+              <li><strong>Mandatory Virtual Meeting</strong> — Mar 9 (All Members)</li>
+              <li><strong>Mandatory In-Person Meeting</strong> — Mar 23 (All Members)</li>
+              <li><strong>GMS Charity Pageant</strong> — Apr 1–2 (All Members)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="resp-card">
+          <div class="resp-icon">💬</div>
+          <div class="resp-title">Stay Connected</div>
+          <div class="resp-body">Stay active in the WhatsApp group. Respond to calls to action. Check your email for updates. Follow <strong>@greymatteratru</strong> on Instagram for real-time info.</div>
+        </div>
+        <div class="resp-card">
+          <div class="resp-icon">🤝</div>
+          <div class="resp-title">Communicate Issues Early</div>
+          <div class="resp-body">Can't make something? Have a conflict or concern? Reach out to your <strong>Committee Lead</strong> proactively — never go dark. We're a community, not just a club.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK + CALENDAR -->
+  <div class="section" id="feedback">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-blue">Quick Links</span>
+        <span class="section-title">Feedback &amp; Calendar</span>
+      </div>
+      <div class="portal-card" style="margin-bottom:12px">
+        <div class="portal-left">
+          <div class="portal-eyebrow">🔒 Members Only</div>
+          <div class="portal-title">GMS Master Document</div>
+          <div class="portal-sub">Everything you need to know to be an active member</div>
+        </div>
+        <a href="https://docs.google.com/document/d/1IDMH0pSWwjH5f6ibpwXjBdW-ZrprM1hiUMkQ9Zktbvo/edit?usp=sharing" class="portal-cta" target="_blank">Open Portal</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <a class="res" href="https://forms.gle/gptXWzwbShft1kEq7" target="_blank" style="display:block;padding:18px 20px">
+          <div class="res-icon" style="font-size:20px">💬</div>
+          <div class="res-name" style="font-size:13px;margin-bottom:4px">Submit Feedback</div>
+          <div class="res-desc" style="font-size:11px;line-height:1.5">We always check this. Your voice shapes GMS — anonymous, honest, always welcome.</div>
+        </a>
+        <a class="res" href="https://calendar.google.com/calendar/u/0?cid=Y18yOTJkZDcyODBlNTc3NzE1OTRmNGRmODU1ZTUzZDBmODQ0N2Q3ZDliYmU1Nzg3NjY2Yzk1YjZhOTQzOGMwZmI5QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20" target="_blank" style="display:block;padding:18px 20px">
+          <div class="res-icon" style="font-size:20px">📅</div>
+          <div class="res-name" style="font-size:13px;margin-bottom:4px">Add to Google Calendar</div>
+          <div class="res-desc" style="font-size:11px;line-height:1.5">Subscribe to the official GMS Spring 2026 calendar — all events sync automatically.</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANDATORY DATES -->
+  <div class="section" id="mandatory">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-red">Required Attendance</span>
+        <span class="section-title">Mandatory Dates</span>
+      </div>
+      <div class="mandatory-alert" style="margin-bottom:16px">
+        <span class="icon">📌</span>
+        <div class="body">
+          <strong>Every active GMS member is required at these events.</strong> Missing a mandatory date requires prior written approval from your committee lead. No exceptions after the fact. All April flagship programming is mandatory.
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+
+        <div style="background:var(--card);border:1px solid rgba(239,68,68,.2);border-left:3px solid var(--red);border-radius:8px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px">
+          <div style="text-align:right;min-width:38px;flex-shrink:0">
+            <div style="font-size:20px;font-weight:800;color:var(--red);line-height:1">7</div>
+            <div style="font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px">Mar</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:700;color:var(--text)">The Grey Conference</span>
+              <span class="mandatory-badge">All Members</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">9:00 AM – 6:00 PM · College Ave (Alex Library, Academic Building, The Hatchery)</div>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:3px">
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>GMS's flagship spring conference &amp; hackathon — our biggest academic event of the semester</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>MedTech workshops, panels, and professional networking across multiple venues</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>Premier hackathon with industry sponsors and prizes</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>Free food &amp; GMS Café Mocktails all day</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid rgba(239,68,68,.2);border-left:3px solid var(--red);border-radius:8px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px">
+          <div style="text-align:right;min-width:38px;flex-shrink:0">
+            <div style="font-size:20px;font-weight:800;color:var(--red);line-height:1">9</div>
+            <div style="font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px">Mar</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:700;color:var(--text)">Mandatory Virtual General Meeting</span>
+              <span class="mandatory-badge">All Members</span>
+              <span class="format-badge format-virtual">Virtual</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">8:30 PM – 9:30 PM · Zoom · Link shared via WhatsApp</div>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:3px">
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span><strong style="color:var(--text)">Merch purchasing closes tonight</strong> — last chance to order your GMS merch</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>Key org-wide planning and announcements before Spring Break</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>All members required — no exceptions</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid rgba(239,68,68,.2);border-left:3px solid var(--red);border-radius:8px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px">
+          <div style="text-align:right;min-width:38px;flex-shrink:0">
+            <div style="font-size:20px;font-weight:800;color:var(--red);line-height:1">23</div>
+            <div style="font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px">Mar</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:700;color:var(--text)">Mandatory In-Person General Meeting</span>
+              <span class="mandatory-badge">All Members</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">8:30 PM – 9:30 PM · College Ave Campus</div>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:3px">
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span><strong style="color:var(--text)">Best Pre-Med Club Battle</strong> — head-to-head academic competition between members</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span><strong style="color:var(--text)">Research Event</strong> — hands-on Surgery + Dissection Lab experience</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>High school students invited to attend and learn alongside us</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>Optional: Club Dinner at Applebee's immediately after</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid rgba(249,115,22,.2);border-left:3px solid var(--orange);border-radius:8px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px">
+          <div style="text-align:right;min-width:38px;flex-shrink:0">
+            <div style="font-size:20px;font-weight:800;color:var(--orange);line-height:1">27</div>
+            <div style="font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px">Mar</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:700;color:var(--text)">Legislative Event — Community Health</span>
+              <span style="font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:2px 7px;border-radius:3px;background:var(--orange);color:#fff">50% Per Committee</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">Friday · College Ave · Time TBD via WhatsApp</div>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:3px">
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--orange)">·</span>Public health focused, community-centered event open to the New Brunswick community</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--orange)">·</span>Includes a legislative conference, community giveaway, and social</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--orange)">·</span><strong style="color:var(--text)">50% of each committee is required</strong> — coordinate with your lead to confirm who attends</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid rgba(239,68,68,.2);border-left:3px solid var(--red);border-radius:8px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px">
+          <div style="text-align:right;min-width:38px;flex-shrink:0">
+            <div style="font-size:20px;font-weight:800;color:var(--red);line-height:1;white-space:nowrap">1–2</div>
+            <div style="font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px">Apr</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:700;color:var(--text)">GMS Charity Pageant</span>
+              <span class="mandatory-badge">All Members</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">April 1 &amp; 2 · April Flagship Programming · GMS's biggest event of the year</div>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:3px">
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>Two-day charity showcase — performances, competitions, and fundraising for a charitable cause</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span><strong style="color:var(--text)">April 2nd</strong> hosted at <strong style="color:var(--text)">Cook MPR</strong> — venue capacity 100+ people, public-facing event</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>All members required for both days — full logistics and schedule released via WhatsApp &amp; Instagram</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="background:var(--card);border:1px solid rgba(239,68,68,.2);border-left:3px solid var(--red);border-radius:8px;padding:16px 18px;display:flex;align-items:flex-start;gap:14px">
+          <div style="text-align:right;min-width:38px;flex-shrink:0">
+            <div style="font-size:20px;font-weight:800;color:var(--red);line-height:1;white-space:nowrap">24–26</div>
+            <div style="font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px">Apr</div>
+          </div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px">
+              <span style="font-size:13px;font-weight:700;color:var(--text)">Neurovation</span>
+              <span class="mandatory-badge">All Members</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div style="font-size:11px;color:var(--text-3);margin-bottom:8px">April 24–26 (Tentative) · Venture Lab Showcase · April Flagship Programming</div>
+            <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:3px">
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>GMS's annual health innovation competition — startup pitch meets science expo, judged by industry professionals</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span><strong style="color:var(--text)">Undergraduate Track</strong> — open to all Rutgers undergrads; teams pitch health innovations to industry judges</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span><strong style="color:var(--text)">High School Track</strong> — invited HS students compete in their own division alongside college teams</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>Each committee <strong style="color:var(--text)">runs the event component they're assigned</strong> — but you're free to also participate in or attend any track or competition that your committee isn't responsible for running</li>
+              <li style="font-size:12px;color:var(--text-2);padding-left:13px;position:relative"><span style="position:absolute;left:0;color:var(--red)">·</span>Weekend schedule and assignments released closer to the date</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MEETINGS -->
+  <div class="section" id="meetings">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-blue">Internal</span>
+        <span class="section-title">Meetings</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-3);margin-bottom:16px;padding:10px 14px;background:var(--elevated);border-radius:6px;border:1px solid var(--border)">
+        <strong style="color:var(--text-2)">General Body Meetings are every Monday — in-person or virtual.</strong> All info is shared on WhatsApp prior to each meeting. Any cancellations, virtual switches, or changes are communicated via <strong style="color:var(--text-2)">WhatsApp only</strong>. Committees meet once per week on their own schedule.
+      </div>
+      <div class="timeline">
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">23</div><div class="t-mon">Feb</div></div>
+          <div class="t-body dc-blue">
+            <div class="t-meta">
+              <span class="t-name">Virtual General Meeting</span>
+              <span class="format-badge format-virtual">Virtual</span>
+            </div>
+            <div class="t-time">Monday · 8:30 PM – 9:30 PM</div>
+            <div class="t-details">
+              <ul>
+                <li>50% of Committee required · All Leads <strong>required</strong></li>
+                <li><strong>Merch opens today</strong> — closes March 9. Watch for the link!</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">2</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-teal">
+            <div class="t-meta">
+              <span class="t-name">No General Meeting — Optional Event Night</span>
+              <span class="optional-badge">No Meeting</span>
+            </div>
+            <div class="t-time">Monday</div>
+            <div class="t-details">Women in STEM Dinner Night runs 8–10 PM. No general meeting this week. Committees still meet on their own schedule.</div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">9</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-red">
+            <div class="t-meta">
+              <span class="t-name">Mandatory Virtual General Meeting</span>
+              <span class="mandatory-badge">Mandatory</span>
+              <span class="format-badge format-virtual">Virtual</span>
+            </div>
+            <div class="t-time">Monday</div>
+            <div class="t-details">
+              <ul>
+                <li><strong>Merch closes today</strong> — last chance to order!</li>
+                <li>All members required to attend</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">13–22</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-gold">
+            <div class="t-meta">
+              <span class="t-name">Spring Break — No Meetings</span>
+              <span class="optional-badge">Break</span>
+            </div>
+            <div class="t-time">No committee or general meetings. Enjoy!</div>
+            <div class="t-details">Optional: Dare Board Fundraiser — sign up to do fun dares wherever you are. See Get Involved.</div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">23</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-red">
+            <div class="t-meta">
+              <span class="t-name">Mandatory In-Person General Meeting</span>
+              <span class="mandatory-badge">Mandatory</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div class="t-time">Monday</div>
+            <div class="t-details">
+              <ul>
+                <li>Best Pre-Med Club Battle / Competition</li>
+                <li>Research Event: Surgery + Dissection Lab</li>
+                <li>High schoolers invited</li>
+                <li>Optional: Club Dinner @ Applebee's after</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">30</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-blue">
+            <div class="t-meta">
+              <span class="t-name">General Meeting — Pageant Prep &amp; Fundraiser</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div class="t-time">Monday</div>
+            <div class="t-details">
+              <ul>
+                <li>Org-wide prep session for the <strong>Charity Pageant</strong> — roles, logistics, assignments</li>
+                <li>Member fundraiser activity also part of this night — details via WhatsApp</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <div class="section" id="events">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-gold">Spring 2026</span>
+        <span class="section-title">Events</span>
+      </div>
+      <div class="timeline">
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">21</div><div class="t-mon">Feb</div></div>
+          <div class="t-body dc-red">
+            <div class="t-meta">
+              <span class="t-name">Board Photos</span>
+              <span class="optional-badge">Complete ✓</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div class="t-time">Saturday · Princeton University Art Museum</div>
+            <div class="t-details">Princeton shoot is done. Google Drive with everyone's photos coming soon. See Board Photos section above for makeup option info.</div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">27</div><div class="t-mon">Feb</div></div>
+          <div class="t-body dc-blue">
+            <div class="t-meta">
+              <span class="t-name">Read Across America Week</span>
+              <span class="optional-badge">Feb 27 – Mar 3</span>
+              <span class="format-badge format-irl">Outreach</span>
+            </div>
+            <div class="t-time">Week-long initiative · Local elementary schools</div>
+            <div class="t-details">High School Outreach setting up events at local elementary schools — GMS volunteers go read to students. More details via WhatsApp.</div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">2</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-teal">
+            <div class="t-meta">
+              <span class="t-name">Women in STEM Dinner Night</span>
+              <span class="optional-badge">Optional</span>
+              <span class="format-badge format-irl">In-Person</span>
+              <span class="tag tag-teal" style="font-size:9px">$6 Entry</span>
+            </div>
+            <div class="t-time">Monday · 8:00 PM – 10:00 PM · Livingston Apartment Lounge</div>
+            <div class="t-details">
+              <ul>
+                <li>Tickets via link in Instagram bio <strong>@greymatteratru</strong></li>
+                <li>No general meeting this night</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">7</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-red">
+            <div class="t-meta">
+              <span class="t-name">The Grey Conference</span>
+              <span class="mandatory-badge">Mandatory — All Members</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div class="t-time">Saturday · 9:00 AM – 6:00 PM · College Ave Campus</div>
+            <div class="t-details">
+              GMS's Spring MedTech Conference &amp; Hackathon.
+              <ul>
+                <li>Venues: Alex Library, Academic Building, The Hatchery</li>
+                <li>Committee-Led &amp; Professional Workshops · Med × Tech × Startups × Business</li>
+                <li>Premiere Hackathon with Industry Sponsors</li>
+                <li>Industry Mentorship · Resume Reviews · Networking</li>
+                <li>Free Food &amp; GMS Café Mocktails</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">12</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-pink">
+            <div class="t-meta">
+              <span class="t-name">RU Tamil New Year Party</span>
+              <span class="optional-badge">5 GMS Reps — Discounted Tickets</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div class="t-time">Thursday · Evening (time TBD)</div>
+            <div class="t-details">
+              Celebrating Tamil New Year! Performances, live DJ, dance floor, music, culture. GMS needs <strong>5 representatives</strong> — discounted tickets provided. See Get Involved to sign up.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="break-banner">
+        <div>
+          <div class="break-label">Spring Break</div>
+          <div class="break-sub">No committee or general meetings. Have fun!</div>
+        </div>
+        <div class="break-tag">Mar 13–22</div>
+      </div>
+
+      <div class="timeline" style="margin-top:8px">
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">23</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-red">
+            <div class="t-meta">
+              <span class="t-name">Best Pre-Med Club Battle + Research Event</span>
+              <span class="mandatory-badge">Mandatory — All Members</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div class="t-time">Monday · General Meeting Night</div>
+            <div class="t-details">
+              <ul>
+                <li>Best Pre-Med Club Battle / Competition</li>
+                <li>Research Event: Surgery + Dissection Lab</li>
+                <li>High schoolers invited</li>
+                <li>Optional: Club Dinner @ Applebee's after</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">27</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-teal">
+            <div class="t-meta">
+              <span class="t-name">Legislative Event — Community Health &amp; Social</span>
+              <span class="format-badge format-irl">In-Person</span>
+              <span class="tag tag-teal" style="font-size:9px">50% Per Committee</span>
+            </div>
+            <div class="t-time">Friday</div>
+            <div class="t-details">
+              Public health focus, community-centered. Conference, giveaway, and social. <strong>50% of each committee is required to attend.</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="t-item">
+          <div class="t-date"><div class="t-num">30</div><div class="t-mon">Mar</div></div>
+          <div class="t-body dc-purple">
+            <div class="t-meta">
+              <span class="t-name">General Meeting — Pageant Prep &amp; Fundraiser</span>
+              <span class="format-badge format-irl">In-Person</span>
+            </div>
+            <div class="t-time">Monday</div>
+            <div class="t-details">Org-wide meeting to prepare for the Charity Pageant + Fundraiser event.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="std-card" style="margin-top:12px">
+        <div class="std-eyebrow">April · Flagship Programming</div>
+        <div class="std-title">GMS Charity Pageant</div>
+        <div class="std-sub">April 1st &amp; 2nd, 2026 &nbsp;·&nbsp; Mandatory — All Members</div>
+        <div style="margin-top:8px;font-size:12px;color:var(--text-2);line-height:1.65">GMS's biggest event of the year. Two-day charity showcase with performances, competitions, and fundraising for a charitable cause. <strong style="color:var(--text)">April 2nd</strong> is hosted at <strong style="color:var(--text)">Cook MPR</strong> — 100+ person capacity, open to the public. All members required both days; logistics and full schedule released via WhatsApp &amp; Instagram.</div>
+      </div>
+
+      <div style="background:linear-gradient(135deg,rgba(79,142,247,.08),rgba(12,21,37,.97));border:1px solid rgba(79,142,247,.25);border-radius:10px;padding:18px 22px;margin-top:10px">
+        <div style="font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px">Venture Lab Showcase · Tentative</div>
+        <div style="font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:4px">Neurovation</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:8px">April 24–26, 2026 &nbsp;·&nbsp; GMS's annual health innovation competition. Undergraduate Track (open to all Rutgers undergrads) + High School Track (invited HS students compete in their own division) run simultaneously.</div>
+        <div style="font-size:12px;color:var(--text-2);background:rgba(79,142,247,.06);border-left:2px solid var(--blue);padding:8px 12px;border-radius:0 5px 5px 0">Each committee runs the event component they're assigned — but members are free to also participate in or attend any track or competition their committee isn't responsible for running.</div>
+      </div>
+
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-top:10px">
+        <div style="font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px">May · Wrap-Up &amp; Transition</div>
+        <div style="font-size:20px;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:4px">End-of-Semester Closing Event</div>
+        <div style="font-size:13px;color:var(--text-2)">First day of May or right before finals · Board dinner, social event, and closing celebration. Next year's board announced + summer retreat plans released.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- GET INVOLVED -->
+  <div class="section" id="involve">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-pink">Join In</span>
+        <span class="section-title">Get Involved in GMS</span>
+      </div>
+
+      <!-- Dare Board -->
+      <div class="involve-card ic-pink">
+        <div class="inv-header">
+          <div>
+            <div class="inv-eyebrow">Spring Break · Community Fun</div>
+            <div class="inv-title">🎯 GMS Dare Board — Spring Break Edition</div>
+          </div>
+          <div class="rsvp-deadline">Sign Up by Mar 9</div>
+        </div>
+        <div class="inv-sub">
+          Every spring break we come back with stories. This year, we're making them official.<br/><br/>
+          We're launching GMS's first-ever <strong style="color:var(--text)">Dare Board</strong> — a collection of member-submitted dare videos. You volunteer your time, do a silly dare during spring break, film it, and submit. Think harmless, hilarious, certified chaos. We need <strong style="color:var(--text)">at least 10 volunteers</strong> to make this happen.
+        </div>
+        <div class="dare-examples">
+          <span class="dare-chip">Shower fully clothed 🚿</span>
+          <span class="dare-chip">Slap yourself with a tortilla 🫓</span>
+          <span class="dare-chip">Convince a stranger you're famous 🎤</span>
+          <span class="dare-chip">Speak only in questions for an hour ❓</span>
+          <span class="dare-chip">Wear a cape to class 🦸</span>
+          <span class="dare-chip">And more to be announced!</span>
+        </div>
+        <p class="dare-rule">Rule: <span>Nothing self-harming, nothing dangerous, nothing that could get you in trouble.</span> Just pure, good-natured silliness that builds community and makes everyone smile.</p>
+        <div style="margin-top:12px">
+          <a href="https://forms.gle/JGdN9hynzAF6SSHA6" target="_blank" class="cta" style="background:var(--pink-dim);border-color:rgba(244,114,182,.25);color:var(--pink)">Sign Up — Google Form</a>
+        </div>
+      </div>
+
+      <!-- UNICEF Care Packages -->
+      <div class="involve-card ic-blue">
+        <div class="inv-header">
+          <div>
+            <div class="inv-eyebrow">Volunteering · Rescheduled</div>
+            <div class="inv-title">📦 UNICEF Care Packages</div>
+          </div>
+          <div class="status-full">Rescheduled</div>
+        </div>
+        <div class="inv-sub">
+          <strong style="color:var(--text)">Originally Feb 23rd · The Hatchery</strong><br/>
+          This session has been <strong style="color:var(--text)">rescheduled due to weather</strong>. A new date will be announced via WhatsApp. Stay tuned — spots will reopen when the new date is confirmed!
+        </div>
+      </div>
+
+      <!-- Tamil New Year Party -->
+      <div class="involve-card ic-purple">
+        <div class="inv-header">
+          <div>
+            <div class="inv-eyebrow">Cultural Event · 5 Reps Needed</div>
+            <div class="inv-title">🎉 RU Tamil New Year Party — GMS Representative</div>
+          </div>
+          <div class="status-open">5 Spots Open</div>
+        </div>
+        <div class="inv-sub">
+          GMS is looking for <strong style="color:var(--text)">5 representatives</strong> to attend Rutgers' Tamil New Year celebration and represent our organization. <strong style="color:var(--text)">Discounted tickets provided to reps!</strong>
+          <br/><br/>
+          <strong style="color:var(--text)">Thursday, March 12 · Evening (exact time TBD)</strong>
+          <br/><br/>
+          A high-energy night of live performances, a DJ, a dance floor, and a celebration of Tamil culture and community. A great chance to represent GMS on campus.
+          <br/><br/>
+          <strong style="color:var(--text)">To be considered:</strong> Email <a href="mailto:rutgersgreymatter@gmail.com?subject=Tamil New Year - GMS Rep Interest" style="color:var(--purple)">rutgersgreymatter@gmail.com</a> with your name, year, and why you'd like to represent GMS. We will confirm the 5 selected reps.
+        </div>
+      </div>
+
+      <div class="info-note" style="margin-top:4px">
+        More opportunities are always being added. Email <strong><a href="mailto:rutgersgreymatter@gmail.com">rutgersgreymatter@gmail.com</a></strong> if you want to get involved or be featured.
+      </div>
+    </div>
+  </div>
+
+  <!-- OPPORTUNITIES -->
+  <div class="section" id="opps">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-orange">Apply Now</span>
+        <span class="section-title">Member Opportunities</span>
+      </div>
+
+      <div class="opp o-gold">
+        <div class="opp-header">
+          <div>
+            <div class="opp-n">Opportunity 01 · Case Competition</div>
+            <div class="opp-title">NJ Behavioral Health Competition</div>
+          </div>
+          <div class="deadline">Deadline: Mar 4 @ 11:59 PM</div>
+        </div>
+        <div class="opp-desc">
+          Rutgers RWJMS + Medical Society of NJ hosting a case competition on <strong style="color:var(--text)">March 28 (2:00–3:20 PM)</strong>. Design a policy-ready, systems-level solution to a real healthcare gap — care coordination failures, workforce shortages, data fragmentation, access &amp; equity barriers.
+        </div>
+        <div class="opp-chips">
+          <span class="chip">250–300 word executive summary</span>
+          <span class="chip">10-min live pitch if selected</span>
+          <span class="chip chip-gold">Top 2 teams win $500</span>
+          <span class="chip">Meet NJ legislators &amp; lobbyists</span>
+        </div>
+        <a href="https://lnkd.in/gFSX6rt7" class="cta">Apply Here</a>
+      </div>
+
+      <div class="opp o-orange">
+        <div class="opp-header">
+          <div>
+            <div class="opp-n">Opportunity 02 · Startup · Stanford × NASA × Yale × Rutgers</div>
+            <div class="opp-title">Rhythm RX — Health-Tech Venture</div>
+          </div>
+          <div class="deadline">Due: Mar 1 @ 7AM</div>
+        </div>
+        <div class="opp-desc">
+          Internationally award-winning health-tech venture recognized by <strong style="color:var(--text)">NASA &amp; Stanford Med</strong>. Intersection of circadian science, metabolic health, and AI. Targeted for social impact in low-income communities. Assembling a founding team.
+        </div>
+        <div class="opp-chips">
+          <span class="chip">Distribution &amp; Outreach</span>
+          <span class="chip">Technical Team</span>
+          <span class="chip">Clinical Team</span>
+          <span class="chip chip-green">High ownership · Early stage · Real impact</span>
+        </div>
+        <a href="https://forms.gle/cYkjf8k5bJmFSHtcA" target="_blank" class="cta">Apply Now</a>
+      </div>
+
+      <div class="opp o-teal">
+        <div class="opp-header">
+          <div>
+            <div class="opp-n">Opportunity 03 · Clinical Internship</div>
+            <div class="opp-title">Children's Specialized Hospital Internship</div>
+          </div>
+          <div class="deadline">Apps Close: Mar 15</div>
+        </div>
+        <div class="opp-desc">
+          Hands-on clinical internship through RWJBarnabas Health at Children's Specialized Hospital. Strong experience for pre-med, nursing, and allied health students.
+        </div>
+        <a href="https://www.rwjbh.org/childrens-specialized-hospital/about/internship-opportunities/" class="cta">View &amp; Apply</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEMBERS ONLY PORTAL + RESOURCES -->
+  <div class="section" id="portal">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-gold">🔒 Members Only</span>
+        <span class="section-title">Member Portal &amp; Resources</span>
+      </div>
+
+      <div class="portal-card">
+        <div class="portal-left">
+          <div class="portal-eyebrow">🔒 Members Only Portal</div>
+          <div class="portal-title">GMS Master Document</div>
+          <div class="portal-sub">Everything you need to know to be an active member of GMS</div>
+        </div>
+        <a href="https://docs.google.com/document/d/1IDMH0pSWwjH5f6ibpwXjBdW-ZrprM1hiUMkQ9Zktbvo/edit?usp=sharing" class="portal-cta" target="_blank">Open Portal</a>
+      </div>
+
+      <div class="res-grid">
+        <a class="res" href="https://docs.google.com/document/d/1k7QIc8lNXF1zY5Fz4g_JnggPbLRZf-bdeKcIzpXfCcA/edit?usp=sharing" target="_blank">
+          <div class="res-icon">✅</div>
+          <div class="res-name">Committee To-Do Lists</div>
+          <div class="res-desc">Task lists for every committee this semester</div>
+        </a>
+        <a class="res" href="https://forms.gle/gptXWzwbShft1kEq7" target="_blank">
+          <div class="res-icon">💬</div>
+          <div class="res-name">Submit Feedback</div>
+          <div class="res-desc">We always check this. Your voice shapes GMS.</div>
+        </a>
+        <a class="res" href="https://medicine.yale.edu/neurology/education/grey-matter-project/" target="_blank">
+          <div class="res-icon">🎓</div>
+          <div class="res-name">Yale Grey Matter Project</div>
+          <div class="res-desc">Our global network — 150+ chapters worldwide</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VENTURE LAB -->
+  <div class="section" id="venture">
+    <div class="container">
+      <div class="section-label">
+        <span class="tag tag-teal">Innovation Program</span>
+        <span class="section-title">Venture Lab</span>
+      </div>
+
+      <div class="venture-card">
+        <div class="venture-title">What is <span>Venture Lab</span>?</div>
+        <div class="venture-desc">GMS's student-led health tech accelerator. A structured innovation program where students don't just <em>learn about healthcare</em> — they <strong style="color:var(--text)">build real solutions</strong>. Operates like a mini healthcare startup incubator on campus. Designed for interdisciplinary teams.</div>
+        <div class="disc-wrap">
+          <span class="disc">Engineering</span><span class="disc">Computer Science</span><span class="disc">Pre-Med</span><span class="disc">Public Health</span><span class="disc">Policy</span><span class="disc">Business</span>
+        </div>
+        <div class="pipeline">
+          <div class="p-step"><div class="p-icon">🧩</div><div class="p-label">Problem ID</div></div>
+          <div class="p-step"><div class="p-icon">🛠</div><div class="p-label">Solution Design</div></div>
+          <div class="p-step"><div class="p-icon">🧪</div><div class="p-label">Validation</div></div>
+          <div class="p-step"><div class="p-icon">🎤</div><div class="p-label">Pitch &amp; Funding</div></div>
+          <div class="p-step"><div class="p-icon">🚀</div><div class="p-label">Real Traction</div></div>
+        </div>
+        <p style="font-size:11px;color:var(--text-3);margin-top:8px;text-align:center">Turn ideas into <strong style="color:var(--text-2)">deployable healthcare innovations</strong>, not just slides.</p>
+      </div>
+
+      <!-- Who Can Join -->
+      <div style="background:linear-gradient(135deg,rgba(13,211,178,.07),rgba(12,21,37,.97));border:1px solid rgba(13,211,178,.25);border-radius:10px;padding:18px 22px;margin-bottom:14px;display:flex;align-items:flex-start;gap:14px">
+        <div style="font-size:24px;flex-shrink:0;margin-top:2px">✅</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px">All GMS Members Can Apply to Venture Lab</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65">Every GMS member is eligible and encouraged to participate — regardless of major, year, or experience. The <strong style="color:var(--text)">only exception</strong> is members who are explicitly involved in organizing or planning the Venture Lab program itself. If you're not sure, assume you can apply.</div>
+        </div>
+      </div>
+
+      <!-- Application Timeline -->
+      <div style="background:linear-gradient(135deg,rgba(13,211,178,.07),rgba(12,21,37,.97));border:1px solid rgba(13,211,178,.25);border-radius:10px;padding:18px 22px;margin-bottom:10px;display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+        <div style="flex:1;min-width:130px">
+          <div style="font-size:9px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px">Applications Open</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.01em">March 4</div>
+        </div>
+        <div style="width:1px;height:36px;background:var(--border);flex-shrink:0"></div>
+        <div style="flex:1;min-width:130px">
+          <div style="font-size:9px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px">Applications Close</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.01em">March 12</div>
+        </div>
+        <div style="width:1px;height:36px;background:var(--border);flex-shrink:0"></div>
+        <div style="flex:1;min-width:130px">
+          <div style="font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px">Decisions Sent</div>
+          <div style="font-size:15px;font-weight:700;color:var(--text);letter-spacing:-.01em">March 19</div>
+        </div>
+      </div>
+      <div style="background:var(--elevated);border:1px solid var(--border);border-radius:8px;padding:13px 18px;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Session Timeline</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;color:var(--blue);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Session 1</div>
+            <div style="font-size:12px;font-weight:600;color:var(--text)">Week of Mar 23</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;color:var(--blue);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Session 2</div>
+            <div style="font-size:12px;font-weight:600;color:var(--text)">Week of Mar 30</div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:2px">No Apr 1–2 sessions</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;color:var(--blue);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Session 3</div>
+            <div style="font-size:12px;font-weight:600;color:var(--text)">Week of Apr 6</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;color:var(--teal);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Neurovation Prep</div>
+            <div style="font-size:12px;font-weight:600;color:var(--text)">Week of Apr 13</div>
+          </div>
+          <div style="background:linear-gradient(135deg,rgba(13,211,178,.1),rgba(79,142,247,.08));border:1px solid rgba(13,211,178,.3);border-radius:6px;padding:10px 12px">
+            <div style="font-size:9px;font-weight:700;color:var(--teal);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em">Neurovation 🚀</div>
+            <div style="font-size:12px;font-weight:600;color:var(--text)">Apr 24–26</div>
+            <div style="font-size:10px;color:var(--text-3);margin-top:2px">Tentative</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tracks">
+        <div class="track t-blue">
+          <div class="track-n">Track 01</div>
+          <div class="track-name">Product Track</div>
+          <div class="track-tag">Devices, AI diagnostics, software platforms, wearables, digital health tools.</div>
+          <div class="track-dl-label">Deliverables</div>
+          <ul class="track-list">
+            <li>Functional prototype / MVP</li>
+            <li>Technical validation</li>
+            <li>Market research</li>
+            <li>Investor-style pitch</li>
+          </ul>
+          <div class="track-vibe">Stanford Biodesign × YC for healthcare</div>
+        </div>
+        <div class="track t-teal">
+          <div class="track-n">Track 02</div>
+          <div class="track-name">Research Track</div>
+          <div class="track-tag">Translational neuroscience, clinical innovation, data-driven healthcare, AI in medicine.</div>
+          <div class="track-dl-label">Deliverables</div>
+          <ul class="track-list">
+            <li>Literature review</li>
+            <li>Experimental design</li>
+            <li>Data analysis</li>
+            <li>Conference / publication</li>
+          </ul>
+          <div class="track-vibe">Academia → Application</div>
+        </div>
+        <div class="track t-purple">
+          <div class="track-n">Track 03</div>
+          <div class="track-name">Social Good Track</div>
+          <div class="track-tag">Healthcare equity, policy, community health, global models, low-cost scalable solutions.</div>
+          <div class="track-dl-label">Deliverables</div>
+          <ul class="track-list">
+            <li>Implementation plan</li>
+            <li>Community validation</li>
+            <li>Impact metrics</li>
+            <li>Partnership strategy</li>
+          </ul>
+          <div class="track-vibe">Impact-first healthcare innovation</div>
+        </div>
+      </div>
+      <div class="venture-diff">
+        <div>
+          <div class="diff-header">Venture Lab Is</div>
+          <ul class="diff-list is">
+            <li>Structured · milestones, pods, mentorship</li>
+            <li>Interdisciplinary by design</li>
+            <li>Outcome-oriented &amp; competition-ready</li>
+            <li>Prototype-driven</li>
+            <li>Healthcare-focused</li>
+          </ul>
+        </div>
+        <div>
+          <div class="diff-header">Not Just</div>
+          <ul class="diff-list not">
+            <li>A speaker series</li>
+            <li>A research club</li>
+            <li>A hackathon</li>
+          </ul>
+          <p style="font-size:12px;color:var(--text-2);margin-top:10px;line-height:1.5">A pipeline for real <strong style="color:var(--text)">healthcare founders, researchers, and builders.</strong></p>
+        </div>
+      </div>
+
+      <!-- Neurovation Showcase -->
+      <div style="background:linear-gradient(135deg,rgba(79,142,247,.08),rgba(12,21,37,.97));border:1px solid rgba(79,142,247,.25);border-radius:10px;padding:22px 24px;margin-top:14px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--teal),var(--purple))"></div>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px">
+          <div>
+            <div style="font-size:9px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px">April 24–26 · Tentative · Flagship Event</div>
+            <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;letter-spacing:-.02em;color:var(--text)">Neurovation 🚀</div>
+          </div>
+          <span class="mandatory-badge" style="flex-shrink:0;margin-top:4px">Mandatory · All Members</span>
+        </div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:12px">Neurovation is GMS's annual health innovation competition — a multi-day event where teams pitch, build, and present solutions at the intersection of neuroscience, health tech, and social good. Think of it as a startup pitch competition meets science expo, judged by real industry professionals, faculty, and mentors from our partner ecosystem.</div>
+        <div style="font-size:13px;color:var(--text-2);line-height:1.65;margin-bottom:16px">Two independent competition tracks run simultaneously, each open beyond just Venture Lab members:</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+          <div style="background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.2);border-radius:8px;padding:14px 16px">
+            <div style="font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">🎓 Undergraduate Track</div>
+            <div style="font-size:12px;color:var(--text-2);line-height:1.6">Open to all Rutgers undergrads. Teams form, develop a health or biotech innovation, and pitch to a panel of judges from industry, academia, and VC. Projects can be research-based, product-based, or social impact-driven. Winners receive recognition + potential funding access.</div>
+          </div>
+          <div style="background:rgba(13,211,178,.06);border:1px solid rgba(13,211,178,.18);border-radius:8px;padding:14px 16px">
+            <div style="font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px">🏫 High School Track</div>
+            <div style="font-size:12px;color:var(--text-2);line-height:1.6">GMS-invited high school students compete in their own division — presenting innovations in health and science to mentors and judges. Designed to expose the next generation to research, entrepreneurship, and the healthcare space early.</div>
+          </div>
+        </div>
+        <div style="background:rgba(79,142,247,.05);border:1px solid rgba(79,142,247,.12);border-radius:6px;padding:10px 14px;margin-bottom:10px;font-size:12px;color:var(--text-2);line-height:1.6">
+          <strong style="color:var(--text)">As a GMS member</strong> — each committee is responsible for running the event component they're assigned. But you're free to also participate in or attend any track or competition that your committee isn't responsible for running. Neurovation is a full org event; you don't need to be in Venture Lab to compete or attend.
+        </div>
+        <div style="font-size:11px;color:var(--text-3);font-style:italic">Mandatory for all GMS members · April flagship programming · Dates tentative</div>
+      </div>
+
+      <!-- Partners & Ecosystem -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 24px;margin-top:12px">
+        <div style="font-size:9px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px">Ecosystem &amp; Partners</div>
+        <div style="font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:5px">Built with the Best</div>
+        <div style="font-size:12px;color:var(--text-2);line-height:1.65;margin-bottom:18px">Venture Lab is backed by partnerships with world-class institutions, accelerators, and funding networks. Our teams get access to mentors, resources, and ecosystems most undergrads never get near.</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px">
+
+          <div style="background:var(--elevated);border:1px solid var(--border-hi);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;background:linear-gradient(135deg,#0b3d91,#fc3d21);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:6.5px;font-weight:900;color:#fff;letter-spacing:.02em;flex-shrink:0">NASA</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);line-height:1.2">NASA</div>
+          </div>
+
+          <div style="background:var(--elevated);border:1px solid var(--border-hi);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;background:#005eb8;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:900;color:#fff;flex-shrink:0">NSF</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);line-height:1.2">Nat'l Science Foundation</div>
+          </div>
+
+          <div style="background:var(--elevated);border:1px solid var(--border-hi);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;background:#003087;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:900;color:#fff;flex-shrink:0">CU</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);line-height:1.2">Columbia University</div>
+          </div>
+
+          <div style="background:var(--elevated);border:1px solid var(--border-hi);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;background:#ff6600;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;flex-shrink:0">Y</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);line-height:1.2">Y Combinator</div>
+          </div>
+
+          <div style="background:var(--elevated);border:1px solid var(--border-hi);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;background:#000;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#fff;letter-spacing:-.02em;flex-shrink:0">a16z</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);line-height:1.2">Andreessen Horowitz</div>
+          </div>
+
+          <div style="background:var(--elevated);border:1px solid var(--border-hi);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px">
+            <div style="width:30px;height:30px;background:#cc0033;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:900;color:#fff;flex-shrink:0">RU</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);line-height:1.2">Rutgers Entrepreneurial Society + Launch Circuit</div>
+          </div>
+
+          <div style="background:var(--elevated);border:1px solid var(--border-hi);border-radius:8px;padding:12px 14px;display:flex;align-items:center;gap:9px;opacity:.65">
+            <div style="width:30px;height:30px;background:var(--border-hi);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text-2);flex-shrink:0">+</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text-2);line-height:1.2">More Partners</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="container">
+      <div class="footer-logo">Grey Matter <span>Society</span> — Rutgers University</div>
+      <div class="footer-yale">Affiliated with <a href="https://medicine.yale.edu/neurology/education/grey-matter-project/" target="_blank">Yale School of Medicine's Grey Matter Project</a> · 150+ International Chapters · Founding Flagship Chapter</div>
+      <div class="footer-row">
+        <a href="https://www.instagram.com/greymatteratru" target="_blank">Instagram @greymatteratru</a>
+        <a href="mailto:rutgersgreymatter@gmail.com">rutgersgreymatter@gmail.com</a>
+        <a href="https://forms.gle/gptXWzwbShft1kEq7" target="_blank">Submit Feedback</a>
+        <a href="https://docs.google.com/document/d/1IDMH0pSWwjH5f6ibpwXjBdW-ZrprM1hiUMkQ9Zktbvo/edit?usp=sharing" target="_blank">🔒 Members Only</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
